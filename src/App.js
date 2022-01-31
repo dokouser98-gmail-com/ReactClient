@@ -1,11 +1,23 @@
-import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import ProductScreen from "./pages/ProductScreen";
 export default function App() {
   return (
-    <div>
-      <header className="bg-violet-600">
-        <nav className="relative w-full flex flex-wrap items-center"></nav>
-      </header>
-      <main>Lista de videojuegos</main>
-    </div>
+    <BrowserRouter>
+      <div>
+        <header>
+          <Navbar />
+        </header>
+        <main>
+          <Routes>
+            <Route>
+              <Route path="/producto/:slug" element={<ProductScreen />}></Route>
+              <Route path="/" element={<Home />}></Route>
+            </Route>
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
