@@ -1,14 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
+import Foteer from "./components/Footer";
 import Home from "./pages/Home";
 import ProductScreen from "./pages/ProductScreen";
 export default function App() {
   return (
     <BrowserRouter>
+      <nav className="bg-blue-900">
+        <Layout />
+      </nav>
+
       <div>
-        <header>
-          <Navbar />
-        </header>
         <main>
           <Routes>
             <Route>
@@ -18,6 +20,7 @@ export default function App() {
           </Routes>
         </main>
       </div>
+      <Foteer />
     </BrowserRouter>
   );
 }
