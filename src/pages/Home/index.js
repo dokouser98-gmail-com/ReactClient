@@ -7,6 +7,9 @@ import Axios from "axios";
 import { Skeleton } from "@mui/material";
 import { Box } from "@mui/system";
 import Product from "../../components/Product";
+import { Helmet } from "react-helmet-async";
+
+import Error from "../../components/Error";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,8 +42,8 @@ export default function Home() {
       try {
         const result = await Axios.get("api/productos");
         dispatch({ type: "FETCH_SUCCESS", payload: result.data });
-      } catch (error) {
-        dispatch({ type: "FETCH_FAIL ", payload: error.message });
+      } catch (err) {
+        dispatch({ type: "FETCH_FAIL ", payload: err.message });
       }
 
       // setProducts(result.data);
@@ -68,6 +71,9 @@ export default function Home() {
     <div>
       <div className="bg-white">
         <div className="max-w-2xl mx-auto py-10 px-2 sm:py-10 sm:px-6 lg:max-w-7xl lg:px-8">
+          <Helmet>
+            <title>Qsis Game</title>
+          </Helmet>
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
             Lista de VideoJuegos
           </h2>
@@ -76,7 +82,7 @@ export default function Home() {
             {loading ? (
               <ListSkeleton />
             ) : error ? (
-              <div> {error} </div>
+              <Error />
             ) : (
               products.productos?.map((producto) => (
                 <div key={producto.slug}>
