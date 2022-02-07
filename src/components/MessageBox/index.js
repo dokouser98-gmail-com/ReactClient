@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function MessageBox(props) {
+export default function MessageBox() {
   return (
     <div
       class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
@@ -18,7 +18,7 @@ export default function MessageBox(props) {
         </div>
         <div>
           <p class="font-bold">Error de busqueda de datos</p>
-          <p class="text-sm">{props.children}</p>
+          <p class="text-sm">Error 505 status code</p>
         </div>
       </div>
     </div>

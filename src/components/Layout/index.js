@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Container,
@@ -16,11 +16,8 @@ import MenuBar from "../icons/Menu";
 import { Box } from "@mui/system";
 import Logo from "../icons/Logo";
 import { Link } from "react-router-dom";
-import { Store } from "../../Store.js";
 
 export default function Layout() {
-  const { state } = useContext(Store);
-  const { cart } = state;
   const pages = ["Productos", "Contactanos"];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -114,8 +111,7 @@ export default function Layout() {
               ))}
             </Box>
             <Link to="/cart">
-              {cart.cartItems.length > 0 && <div>{cart.cartItems.length}</div>}
-              <Badge badgeContent={cart.cartItems.length} color="primary">
+              <Badge badgeContent={0} color="primary">
                 <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="carrito">
                     <IconButton sx={{ mx: "auto" }}>

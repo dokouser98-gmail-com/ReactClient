@@ -1,16 +1,19 @@
 import React from "react";
+import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { HelmetProvider } from "react-helmet-async";
-import { StoreProvider } from "./Store";
+import store from "./store";
+
 ReactDOM.render(
-  <React.StrictMode>
-    <StoreProvider>
+  <Provider store={store}>
+    <React.StrictMode>
       <HelmetProvider>
         <App />
       </HelmetProvider>
-    </StoreProvider>
-  </React.StrictMode>,
+    </React.StrictMode>
+  </Provider>,
+
   document.getElementById("root")
 );
