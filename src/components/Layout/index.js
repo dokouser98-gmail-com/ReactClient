@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   AppBar,
   Container,
@@ -7,15 +7,22 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Button,
+  Tooltip,
+  Avatar,
+  Badge,
 } from "@mui/material";
 import MenuBar from "../icons/Menu";
 import { Box } from "@mui/system";
 import Logo from "../icons/Logo";
 import { Link } from "react-router-dom";
+import { Store } from "../../Store.js";
 
 export default function Layout() {
+  const { state } = useContext(Store);
+  const { cart } = state;
   const pages = ["Productos", "Contactanos"];
-  // const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const handleOpenNavMenu = (event) => {
@@ -36,12 +43,12 @@ export default function Layout() {
       anchorEl={anchorElNav}
       anchorOrigin={{
         vertical: "bottom",
-        horizontal: "left",
+        horizontal: "right",
       }}
       keepMounted
       transformOrigin={{
         vertical: "top",
-        horizontal: "left",
+        horizontal: "right",
       }}
       open={Boolean(anchorElNav)}
       onClose={handleCloseNavMenu}
@@ -52,7 +59,7 @@ export default function Layout() {
       {pages?.map((page) => (
         <MenuItem key={page} onClick={handleCloseNavMenu}>
           <Typography
-            className="self-center text-lg font-semibold whitespace-nowrap dark:text-blue-900"
+            className="self-center text-lg font-bold whitespace-nowrap dark:text-blue-900"
             textAlign="center"
           >
             {page}
@@ -79,6 +86,7 @@ export default function Layout() {
                 </span>
               </Link>
             </Typography>
+
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -93,37 +101,62 @@ export default function Layout() {
 
               {renderMobile}
             </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </div>
-  );
 
-  /*
-   <Box
-              sx={{
-                display: {
-                  xs: "none",
-                  md: "flex",
-                  align: "center",
-                },
-              }}
-            >
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{
-                    my: 2,
-                    color: "white",
-                    display: "block",
-                    fontSize: 15,
-                    fontWeight: "bold",
-                  }}
+                  sx={{ my: 2, color: "white", display: "block" }}
                 >
                   {page}
                 </Button>
               ))}
             </Box>
-         */
+            <Link to="/cart">
+              {cart.cartItems.length > 0 && <div>{cart.cartItems.length}</div>}
+              <Badge badgeContent={cart.cartItems.length} color="primary">
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="carrito">
+                    <IconButton sx={{ mx: "auto" }}>
+                      <Avatar alt="Remy Sharp" src="/images/carrito.png" />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Badge>
+            </Link>
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/images/ps4.png" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </div>
+  );
 }

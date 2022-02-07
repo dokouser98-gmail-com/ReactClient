@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 
 import Axios from "axios";
@@ -6,8 +6,9 @@ import Rating from "../../components/Rating";
 import { Helmet } from "react-helmet-async";
 import { getError } from "../../utils";
 import LoadingBox from "../../components/LoadinBox";
-import Error from "../../components/Error";
+
 import MessageBox from "../../components/MessageBox";
+import { Store } from "../../Store";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -49,7 +50,15 @@ export default function ProductScreen() {
     };
     fetchDatos();
   }, [slug]);
+  const { state, dispatch: cxtDispatch } = useContext(Store);
 
+  const addToCartHandler = () => {
+    cxtDispatch({
+      type: "CART_ADD_ITEM",
+      payload: { ...product, quantity: 1 },
+    });
+  };
+  const 
   return loading ? (
     <div>
       {" "}
@@ -113,7 +122,10 @@ export default function ProductScreen() {
                 S/. {product.precio}
               </span>
               {product.stock > 0 && (
-                <button class="flex ml-auto text-white bg-blue-900 border-0 py-2 px-6 focus:outline-none hover:bg-blue-700 rounded">
+                <button
+                  onClick={addToCartHandler}
+                  class="flex ml-auto text-white bg-blue-900 border-0 py-2 px-6 focus:outline-none hover:bg-blue-700 rounded"
+                >
                   Agregar
                 </button>
               )}
